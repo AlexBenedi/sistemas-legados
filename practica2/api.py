@@ -32,10 +32,10 @@ def disconnect():
     
     
 @wait_for_connect
-def login():
+def login(username, password):
     # session.wait_for_field()
-    session.fill_field(3, 18, USERNAME, 8)
-    session.fill_field(5, 18, PASSWORD, 8)
+    session.fill_field(3, 18, username, 8)
+    session.fill_field(5, 18, password, 8)
     session.send_enter()
     
 @wait_for_connect
@@ -58,7 +58,7 @@ def view_general_tasks():
 if __name__ == '__main__':
     connect()
     session.send_enter()
-    login()
+    login(USERNAME, PASSWORD)
     session.send_enter()
     print(session.is_connected())
     exec_tareas()

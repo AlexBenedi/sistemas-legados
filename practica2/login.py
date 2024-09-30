@@ -1,5 +1,6 @@
 from tkinter import *
 import tkinter as ttk
+from api import login
 
 def login():
     
@@ -23,7 +24,7 @@ entry_password = ttk.Entry(root, show="*")
 entry_password.pack()
 
 # Botón de inicio de sesión
-button_login = ttk.Button(root, text="Iniciar sesión", command=login)
+button_login = ttk.Button(root, text="Iniciar sesión", command=login(entry_username, entry_password))
 button_login.pack(pady=20)
 
 # Iniciar la aplicación
