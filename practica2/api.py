@@ -7,29 +7,52 @@ USERNAME='grupo_08'
 PASSWORD='secreto6'
 
 
+# Espera para que la pantalla este lista
+def wait():
+    session.wait_for_field()
+    time.sleep(2)
+
 def wait_for_connect(func):
-    def wrapper(*args, **kwargs):
-        time.sleep(2)
-        session.wait_for_field() 
+    def inner(*args, **kwargs):
+        wait()
         res = func(*args, **kwargs)
         return res
-    return wrapper
+    return inner
+
+
 
 def connect():
     global session
     session = Emulator(visible=True)
     session.connect(f'{HOST}:{PORT}')
-    # session.wait_for_field()
+    session.wait_for_field()
+    
+def disconnect():
+    session.terminate()
     
     
 @wait_for_connect
 def login():
-    # Se completan los campos en la terminal rellenando los pixeles concretos
-    # y se pulsa enter
+    # session.wait_for_field()
     session.fill_field(3, 18, USERNAME, 8)
     session.fill_field(5, 18, PASSWORD, 8)
     session.send_enter()
     
+@wait_for_connect
+def exec_tareas():
+    session.fill_field(3, 15, 'tareas.c', 8)
+    session.send_enter()  
+    
+@wait_for_connect
+def view_general_tasks():
+    session.send_string(f'2')
+    session.send_enter()
+    session.wait_for_field()
+    time.sleep(2)
+    session.send_string(f'1')
+    session.send_enter()
+    for line in range(1, 21):
+        print(session.string_get(line, 1, 80))
 
 
 if __name__ == '__main__':
@@ -38,5 +61,9 @@ if __name__ == '__main__':
     login()
     session.send_enter()
     print(session.is_connected())
-    time.sleep(5)
+    exec_tareas()
+    view_general_tasks()
+    while input() != 'exit':
+        pass
     session.terminate()
+    
