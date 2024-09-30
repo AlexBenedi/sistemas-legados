@@ -1,7 +1,7 @@
 import time
 from py3270 import Emulator
 
-HOST='155.210.152.151'
+HOST='155.210.152.51'
 PORT='3270'
 USERNAME='grupo_08'
 PASSWORD='secreto6'
@@ -9,16 +9,17 @@ PASSWORD='secreto6'
 
 def wait_for_connect(func):
     def wrapper(*args, **kwargs):
-        time.sleep(5)
-        func(*args, **kwargs) 
+        time.sleep(2)
+        session.wait_for_field() 
+        res = func(*args, **kwargs)
+        return res
     return wrapper
 
-@wait_for_connect
 def connect():
     global session
     session = Emulator(visible=True)
     session.connect(f'{HOST}:{PORT}')
-    session.wait_for_field()
+    # session.wait_for_field()
     
     
 @wait_for_connect
@@ -37,4 +38,5 @@ if __name__ == '__main__':
     login()
     session.send_enter()
     print(session.is_connected())
+    time.sleep(5)
     session.terminate()
