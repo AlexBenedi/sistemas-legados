@@ -8,27 +8,37 @@ PASSWORD='secreto6'
 
 class api:
 
+    
     def __init__(self):
         self.session = Emulator(visible=True)
         self.session.connect(f'{HOST}:{PORT}')
         self.session.wait_for_field()
         self.session.send_enter()
         self.session.wait_for_field()
+        self.session.login()
+        self.session.execTareas()
 
     def disconnect(self):
+        self.wait()
         self.session.terminate()
 
     def execTareas(self):
+        self.wait()
         self.session.fill_field(3, 15, 'tareas.c', 8)
         self.session.send_enter()
 
-    def login(self, username, password):
-        self.session.fill_field(3, 18, username, 8)
+    def login(self):
+        self.wait()
+        self.session.fill_field(3, 18, USERNAME, 8)
         self.session.wait_for_field()
-        self.session.fill_field(5, 18, password, 8)
+        self.session.fill_field(5, 18, PASSWORD, 8)
         self.session.wait_for_field()
         self.session.send_enter()
         self.session.wait_for_field()
         self.session.send_enter()
         self.session.wait_for_field()
-        return True
+
+    def wait(self):
+        self.session.wait_for_field()
+        time.sleep(2)
+        
