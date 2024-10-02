@@ -16,17 +16,17 @@ class api:
         self.session.wait_for_field()
         self.login()
         self.execTareas()
+        self.session.send_string('1')
+        self.session.wait_for_field()
 
     def disconnect(self):
         self.wait()
+
         self.session.terminate()
 
     def execTareas(self):
         self.wait()
         self.session.fill_field(3, 15, 'tareas.c', 8)
-        self.session.wait_for_field()
-        self.session.send_enter()
-        self.session.wait_for_field()
         self.session.send_enter()
         self.session.wait_for_field()
 
@@ -34,8 +34,6 @@ class api:
         self.wait()
         self.session.fill_field(3, 18, USERNAME, 8)
         self.session.fill_field(5, 18, PASSWORD, 8)
-        self.session.send_enter()
-        self.session.wait_for_field()
         self.session.send_enter()
         self.session.wait_for_field()
         self.session.send_enter()
