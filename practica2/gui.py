@@ -8,30 +8,10 @@ class gui:
         self.root = Tk()
         self.root.title("Tareas")
         self.root.geometry("300x200")
-        self.login()  # Mostrar la pantalla de login al iniciar
+        #self.login()  # Mostrar la pantalla de login al iniciar
 
     def mainloop(self):
         self.root.mainloop()
-    
-    # def login(self):
-    #     """Pantalla de inicio de sesión."""
-    #     self._clearWindow()  # Limpia la ventana antes de mostrar nuevos widgets
-
-    #     label_username = ttk.Label(self.root, text="Usuario:")
-    #     label_username.pack(pady=10)
-    #     entry_username = ttk.Entry(self.root)
-    #     entry_username.pack()
-
-    #     label_password = ttk.Label(self.root, text="Contraseña:")
-    #     label_password.pack(pady=10)
-    #     entry_password = ttk.Entry(self.root, show="*")
-    #     entry_password.pack()
-        
-    #     # Botón de inicio de sesión
-    #     button_login = ttk.Button(self.root, text="Iniciar sesión", 
-    #                     command=lambda: self.handle_login(entry_username.get(), entry_password.get()))
-    #     button_login.pack(pady=20)
-    #     self.root.update_idletasks()
 
     def main_page(self):
         screen_width = self.root.winfo_screenwidth()
@@ -70,6 +50,10 @@ class gui:
         boton2 = ttk.Button(pestana2, text="Añadir tarea especifica", command=self.funcion_pestana2)
         boton2.pack(pady=10)
 
+        boton_salir = ttk.Button(self.root, text="Salir", command=self.salir)
+        boton_salir.pack(pady=10)
+        
+
         self.root.update_idletasks()
 
     # Funciones para pestañas
@@ -79,18 +63,11 @@ class gui:
     def funcion_pestana2(self):
         print("Tarea específica añadida.")
 
+    def salir(self):
+        self.api.disconnect()
+        self.root.quit()
+
     # Funciones internas para el funcionamiento de la GUI
     def _clearWindow(self):
         for widget in self.root.winfo_children():
             widget.destroy()
-
-    # def handle_login(self, username, password):
-    #     result = self.api.login(username, password)
-    #     print(result)
-    #     if result == "Enter userid or press F1 for help":
-    #         print("Login exitoso")
-    #         self.main_page()
-    #     else:
-    #         print("Login fallido")
-    #         error_label = ttk.Label(self.root, text="Usuario o contraseña incorrectos", foreground="red")
-    #         error_label.pack(pady=10)
