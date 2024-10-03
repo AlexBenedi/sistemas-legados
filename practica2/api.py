@@ -16,12 +16,9 @@ class api:
         self.session.wait_for_field()
         self.login()
         self.execTareas()
-        self.session.send_string('1')
-        self.session.wait_for_field()
+        self.view_Tareas_Generales()
 
     def disconnect(self):
-        self.wait()
-
         self.session.terminate()
 
     def execTareas(self):
@@ -39,6 +36,79 @@ class api:
         self.session.send_enter()
         self.session.wait_for_field()
 
+    def enter_Tarea_General(self, fecha, descripcion):
+        
+        self.wait()
+
+        # Salir al menu
+        self.menu()
+        
+        #Entrar en la opcion de añadir tarea general
+        self.session.send_string('1')
+        self.session.send_enter()
+        self.session.wait_for_field()
+        self.session.send_string('1')
+        self.session.send_enter()
+        self.session.wait_for_field()
+
+        # Introducir la fecha y la descripcion
+        self.session.send_string(fecha)
+        self.session.send_enter()
+        self.session.wait_for_field()
+        self.session.send_string(descripcion)
+        self.session.send_enter()
+        self.session.wait_for_field()
+
+        self.menu()
+        #self.view_Tareas_Generales()
+
+    def enter_Tarea_Especifica(self, fecha, nombre, descripion):
+        self.wait()
+        self.menu()
+
+        # Entrar en la opcion de añadir tarea especifica
+        self.session.send_string('1')
+        self.session.send_enter()
+        self.session.wait_for_field()
+        self.session.send_string('2')
+        self.session.send_enter()
+        self.session.wait_for_field()
+
+        # Introducir la fecha, el nombre y la descripcion
+        self.session.send_string(fecha)
+        self.session.send_enter()
+        self.session.wait_for_field()
+        self.session.send_string(nombre)
+        self.session.send_enter()
+        self.session.wait_for_field()
+        self.session.send_string(descripion)
+        self.session.send_enter()
+        self.session.wait_for_field()
+
+        self.menu()
+        #self.view_Tareas_Especificas()
+
+    def menu(self):
+        self.session.send_string('3')
+        self.session.send_enter()
+        self.session.wait_for_field()
+
+    def view_Tareas_Generales(self):
+        self.session.send_string('2')
+        self.session.send_enter()
+        self.session.wait_for_field()
+        self.session.send_string('1')
+        self.session.send_enter()
+        self.session.wait_for_field()
+
+    def view_Tareas_Especificas(self):
+        self.session.send_string('2')
+        self.session.send_enter()
+        self.session.wait_for_field()
+        self.session.send_string('2')
+        self.session.send_enter()
+        self.session.wait_for_field()
+    
     def wait(self):
         self.session.wait_for_field()
         time.sleep(2)
