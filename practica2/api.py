@@ -17,6 +17,7 @@ class api:
         self.login()
         self.exec_tasks()
         self.view_general_tasks()
+        self.session.status
 
     # Cierra la sesion
     def disconnect(self):
@@ -109,18 +110,62 @@ class api:
         self._send_string('2')
         self.session.send_enter()
         self.session.wait_for_field()
-    
+
     # Espera a que la pantalla este lista
     def wait(self):
         self.session.wait_for_field()
         time.sleep(2)
 
+    def get_tasks(self):
+        start = self._find_first_task()
+        tasks = []
+        stop = False
+        line = start
+        while line and not stop:
+            task = self.session.string_get(line, 1, 80).strip()
+            #final = self.session.string_get(line, 1, 10)
+            print(task)
+            print("\n")
+            if line == 0:
+                continue
+            if task.strip() == "TOTAL TASK":
+                stop = True
+                continue
+            tasks.append(task)
+            if task != "TOTAL TASK" and line == 40:
+                self.session.send_enter()
+                self.session.wait_for_field()
+                time.sleep(0.1)
+                line = 0
+            line += 1
+        
+        return tasks
+    
+    # Linea en la cual comienzan las trareas
+    def _find_first_task(self):
+        time.sleep(1)
+        stop = False
+        line = 0
+        i = 0
+        while i <= 40 and not stop:
+            word = self.session.string_get(i, 1, 4)
+            if word == "TASK":
+                stop = True
+                line = i
+            else:
+                i += 1
+        return line
+    
     # Por cada string se comprueba si se acaba la pantalla
     def _send_string(self, c):
-        caract = self.session.string_get(37, 1, 1)
+        caract = self.session.string_get(36, 1, 1)
         if caract != " ":
             self.session.send_enter()
+            self.session.wait_for_field()
             self.session.send_enter()
+            self.session.wait_for_field()
+            self.session.send_enter()
+            self.session.wait_for_field()
             self.session.send_enter()
             self.session.wait_for_field()
         self.session.send_string(c)
