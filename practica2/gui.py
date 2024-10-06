@@ -51,6 +51,8 @@ class gui:
 
         self.api.menu()
         self.api.view_specific_tasks()
+        tasks = self.api.get_tasks()
+        print(tasks)
 
         screen_width = self.root.winfo_screenwidth()
         screen_height = self.root.winfo_screenheight()
@@ -139,3 +141,41 @@ class gui:
     def _clearWindow(self):
         for widget in self.root.winfo_children():
             widget.destroy()
+    
+    def _resize(self, event):
+        # Ajustar la cantidad de filas visibles según la altura de la ventana
+        frame_height = event.height
+        
+        # Ajustar la cantidad de filas visibles dinámicamente
+        if frame_height > 400:
+            visible_rows = (frame_height - 200) // 25  # Fórmula para determinar las filas según altura
+            self.tree.config(height=max(15, visible_rows))  # Establecer un mínimo de 15 filas visibles
+
+    def _create_table(self, parent, content):
+        # Crear la tabla (Treeview) con 4 columnas
+        self.columns = ("#1", "#2", "#3", "#4")
+        self.tree = ttk.Treeview(parent, columns=self.columns, show='headings', height=15)  # Iniciar con más filas visibles (15)
+        
+        # Configurar las columnas para que cambien de tamaño dinámicamente
+        self.tree.heading("#1", text="Columna 1")
+        self.tree.heading("#2", text="Columna 2")
+        self.tree.heading("#3", text="Columna 3")
+        self.tree.heading("#4", text="Columna 4")
+        
+        # Definir el tamaño de las columnas para que cambien dinámicamente
+        self.tree.column("#1", anchor="center", stretch=True, minwidth=100)
+        self.tree.column("#2", anchor="center", stretch=True, minwidth=100)
+        self.tree.column("#3", anchor="center", stretch=True, minwidth=100)
+        self.tree.column("#4", anchor="center", stretch=True, minwidth=100)
+        
+        # Añadir algunos datos de ejemplo
+        for i in range(50):
+            self.tree.insert("", "end", values=(
+                f"Dato {i+1}-1",
+                f"Dato {i+1}-2",
+                f"Dato {i+1}-3",
+                f"Dato {i+1}-4"
+            ))
+        
+        # Empaquetar la tabla
+        self.tree.pack(fill=tk.BOTH, expand=True)
