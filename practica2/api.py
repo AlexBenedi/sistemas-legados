@@ -125,8 +125,8 @@ class api:
             task = self.session.string_get(line, 1, 80).strip()
             #final = self.session.string_get(line, 1, 10)
             print(task)
-            print("\n")
-            if line == 0:
+            if line == 0 or task.strip() == "1" or task.strip() == "2":
+                line += 1
                 continue
             if task.strip() == "TOTAL TASK":
                 stop = True
@@ -146,14 +146,19 @@ class api:
         time.sleep(1)
         stop = False
         line = 0
-        i = 0
-        while i <= 40 and not stop:
+        i = 40
+        while i >= 1 and not stop:
             word = self.session.string_get(i, 1, 4)
+            if word == "TOTA":
+                word = self.session.string_get(i-1, 1, 1)
+                if word == "1" or word == "2":
+                    stop = True
+                    line = i-1
             if word == "TASK":
                 stop = True
                 line = i
             else:
-                i += 1
+                i -= 1
         return line
     
     # Por cada string se comprueba si se acaba la pantalla

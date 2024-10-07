@@ -72,16 +72,16 @@ class gui:
         table_canvas.configure(yscrollcommand=scrollbar.set)
         
         # Frame dentro del Canvas para la tabla
-        table_frame = ttk.Frame(table_canvas)
+        table_general = ttk.Frame(table_canvas)
         
         # Añadir la tabla al frame dentro del Canvas
-        self.create_table(table_frame)
+        self.create_table(table_general)
         
         # Crear una ventana dentro del Canvas
-        table_canvas.create_window((0, 0), window=table_frame, anchor="nw")
+        table_canvas.create_window((0, 0), window=table_general, anchor="nw")
         
         # Bind para actualizar el scrollregion cuando se modifica el tamaño del frame
-        table_frame.bind("<Configure>", lambda event: table_canvas.configure(scrollregion=table_canvas.bbox("all")))
+        table_general.bind("<Configure>", lambda event: table_canvas.configure(scrollregion=table_canvas.bbox("all")))
         
         # Hacer que el Canvas se expanda con el tamaño del middle_frame
         table_canvas.bind("<Configure>", lambda event: table_canvas.itemconfig("all", width=event.width))
@@ -151,16 +151,16 @@ class gui:
         table_canvas.configure(yscrollcommand=scrollbar.set)
         
         # Frame dentro del Canvas para la tabla
-        table_frame = ttk.Frame(table_canvas)
+        table_especificas = ttk.Frame(table_canvas)
         
         # Añadir la tabla al frame dentro del Canvas
-        self.create_table(table_frame)
+        self.create_table(table_especificas)
         
         # Crear una ventana dentro del Canvas
-        table_canvas.create_window((0, 0), window=table_frame, anchor="nw")
+        table_canvas.create_window((0, 0), window=table_especificas, anchor="nw")
         
         # Bind para actualizar el scrollregion cuando se modifica el tamaño del frame
-        table_frame.bind("<Configure>", lambda event: table_canvas.configure(scrollregion=table_canvas.bbox("all")))
+        table_especificas.bind("<Configure>", lambda event: table_canvas.configure(scrollregion=table_canvas.bbox("all")))
         
         # Hacer que el Canvas se expanda con el tamaño del middle_frame
         table_canvas.bind("<Configure>", lambda event: table_canvas.itemconfig("all", width=event.width))
@@ -194,6 +194,7 @@ class gui:
         self.tree.column("#5", anchor="center", stretch=True, minwidth=100)
 
         tasks = self.api.get_tasks()
+        print(tasks)
         
         # Añadir algunos datos de ejemplo
         for i in tasks:
@@ -205,7 +206,8 @@ class gui:
                 i.split()[5]
 
             ))
-        
+
+        tasks.clear()
         # Empaquetar la tabla
         self.tree.pack(fill=tk.BOTH, expand=True)
 
@@ -303,6 +305,7 @@ class gui:
 
     # Funcion llamada por el boton para mostrar la pantalla de añadir tarea especifica
     def _create_specific_tasks_function(self):
+        
         self._clearWindow()
         self.api.enter_specific_tasks()
 
