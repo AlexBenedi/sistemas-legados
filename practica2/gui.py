@@ -199,11 +199,11 @@ class gui:
         # Añadir algunos datos de ejemplo
         for i in tasks:
             self.tree.insert("", "end", values=(
-                i.split()[1][0],
+                i.split()[1].split(":")[0],
                 i.split()[2],
                 i.split()[4],
-                i.split()[3],
-                i.split()[5]
+                i.split()[5],
+                i.split()[3]
 
             ))
 
