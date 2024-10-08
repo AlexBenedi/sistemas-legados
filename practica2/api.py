@@ -155,6 +155,10 @@ class api:
                     stop = True
                     line = i-1
             if word == "TASK":
+                word = self.session.string_get(i-1, 1, 4)
+                if word == "TASK":
+                    i -= 1
+                    continue
                 stop = True
                 line = i
             else:
