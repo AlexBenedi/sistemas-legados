@@ -177,7 +177,7 @@ class gui:
     def create_table(self, parent):
         # Crear la tabla (Treeview) con 4 columnas
         self.columns = ("#1", "#2", "#3", "#4", "#5")
-        self.tree = ttk.Treeview(parent, columns=self.columns, show='headings', height=15)  # Iniciar con más filas visibles (15)
+        self.tree = ttk.Treeview(parent, columns=self.columns, show='headings', height=19)  # Iniciar con más filas visibles (15)
         
         # Configurar las columnas para que cambien de tamaño dinámicamente
         self.tree.heading("#1", text="ID")
