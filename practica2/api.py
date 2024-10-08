@@ -42,10 +42,11 @@ class api:
 
     # Dado una fecha y una descripcion, crea una tarea general
     def create_general_tasks(self, fecha, descripcion):
-        self.wait()
+        time.sleep(0.5)
         self._send_string(fecha)
         self.session.send_enter()
         self.session.wait_for_field()
+        time.sleep(0.5)
         self._send_string(descripcion)
         self.session.send_enter()
         self.session.wait_for_field()
@@ -55,22 +56,26 @@ class api:
         # Salir al menu
         self.menu()
         #Entrar en la opcion de añadir tarea general
+        time.sleep(0.5)
         self._send_string('1')
         self.session.send_enter()
         self.session.wait_for_field()
+        time.sleep(0.5)
         self._send_string('1')
         self.session.send_enter()
         self.session.wait_for_field()
 
     # Dado una fecha, un nombre y una descripcion, crea una tarea especifica
     def create_specific_tasks(self, fecha, nombre, descripion):
-        self.wait()
+        time.sleep(0.5)
         self._send_string(fecha)
         self.session.send_enter()
         self.session.wait_for_field()
+        time.sleep(0.5)
         self._send_string(nombre)
         self.session.send_enter()
         self.session.wait_for_field()
+        time.sleep(0.5)
         self._send_string(descripion)
         self.session.send_enter()
         self.session.wait_for_field()
@@ -80,33 +85,40 @@ class api:
         self.menu()
 
         # Entrar en la opcion de añadir tarea especifica
+        time.sleep(0.5)
         self._send_string('1')
         self.session.send_enter()
         self.session.wait_for_field()
+        time.sleep(0.5)
         self._send_string('2')
         self.session.send_enter()
         self.session.wait_for_field()
 
     # Sale al menu principal
     def menu(self):
+        time.sleep(0.5)
         self._send_string('3')
         self.session.send_enter()
         self.session.wait_for_field()
 
     # Se mete en el menu para mostrar las tareas generales
     def view_general_tasks(self):
+        time.sleep(0.5)
         self._send_string('2')
         self.session.send_enter()
         self.session.wait_for_field()
+        time.sleep(0.5)
         self._send_string('1')
         self.session.send_enter()
         self.session.wait_for_field()
 
     # Se mete en el menu para mostrar las tareas especificas
     def view_specific_tasks(self):
+        time.sleep(0.5)
         self._send_string('2')
         self.session.send_enter()
         self.session.wait_for_field()
+        time.sleep(0.5)
         self._send_string('2')
         self.session.send_enter()
         self.session.wait_for_field()
