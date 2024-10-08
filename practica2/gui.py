@@ -87,7 +87,7 @@ class gui:
         table_canvas.bind("<Configure>", lambda event: table_canvas.itemconfig("all", width=event.width))
         
         # Nuevo botón a la derecha de la tabla con padding
-        btn_agnadir_general = ttk.Button(middle_frame, text="Añiadir tarea general", command=self._create_general_tasks_function)
+        btn_agnadir_general = ttk.Button(middle_frame, text="Añadir tarea general", command=self._create_general_tasks_function)
         btn_agnadir_general.grid(row=0, column=2, padx=20, pady=5, sticky="n")  # Agregar padding horizontal con padx=20
 
         btn_salir = ttk.Button(middle_frame, text="Salir", command=self.exit)
@@ -342,12 +342,3 @@ class gui:
     def _clearWindow(self):
         for widget in self.root.winfo_children():
             widget.destroy()
-    
-    def _resize(self, event):
-        # Ajustar la cantidad de filas visibles según la altura de la ventana
-        frame_height = event.height
-        
-        # Ajustar la cantidad de filas visibles dinámicamente
-        if frame_height > 400:
-            visible_rows = (frame_height - 200) // 25  # Fórmula para determinar las filas según altura
-            self.tree.config(height=max(15, visible_rows))  # Establecer un mínimo de 15 filas visibles
