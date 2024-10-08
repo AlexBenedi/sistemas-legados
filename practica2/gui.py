@@ -175,30 +175,30 @@ class gui:
         self.root.update_idletasks()
 
     def create_table(self, parent):
-        # Crear la tabla (Treeview) con 4 columnas
-        self.columns = ("#1", "#2", "#3", "#4", "#5")
-        self.tree = ttk.Treeview(parent, columns=self.columns, show='headings', height=19)  # Iniciar con más filas visibles (15)
+
+        columns = ("#1", "#2", "#3", "#4", "#5")
+        tree = ttk.Treeview(parent, columns=columns, show='headings', height=19)  # Iniciar con más filas visibles (15)
         
         # Configurar las columnas para que cambien de tamaño dinámicamente
-        self.tree.heading("#1", text="ID")
-        self.tree.heading("#2", text="Tipo")
-        self.tree.heading("#3", text="NOMBRE")
-        self.tree.heading("#4", text="DESCRIPCION")
-        self.tree.heading("#5", text="FECHA")
+        tree.heading("#1", text="ID")
+        tree.heading("#2", text="Tipo")
+        tree.heading("#3", text="NOMBRE")
+        tree.heading("#4", text="DESCRIPCION")
+        tree.heading("#5", text="FECHA")
         
         # Definir el tamaño de las columnas para que cambien dinámicamente
-        self.tree.column("#1", anchor="center", stretch=True, minwidth=100)
-        self.tree.column("#2", anchor="center", stretch=True, minwidth=100)
-        self.tree.column("#3", anchor="center", stretch=True, minwidth=100)
-        self.tree.column("#4", anchor="center", stretch=True, minwidth=100)
-        self.tree.column("#5", anchor="center", stretch=True, minwidth=100)
+        tree.column("#1", anchor="center", stretch=True, minwidth=100)
+        tree.column("#2", anchor="center", stretch=True, minwidth=100)
+        tree.column("#3", anchor="center", stretch=True, minwidth=100)
+        tree.column("#4", anchor="center", stretch=True, minwidth=100)
+        tree.column("#5", anchor="center", stretch=True, minwidth=100)
 
         tasks = self.api.get_tasks()
         print(tasks)
         
         # Añadir algunos datos de ejemplo
         for i in tasks:
-            self.tree.insert("", "end", values=(
+            tree.insert("", "end", values=(
                 i.split()[1].split(":")[0],
                 i.split()[2],
                 i.split()[4],
@@ -209,7 +209,7 @@ class gui:
 
         tasks.clear()
         # Empaquetar la tabla
-        self.tree.pack(fill=tk.BOTH, expand=True)
+        tree.pack(fill=tk.BOTH, expand=True)
 
 
 
@@ -288,11 +288,13 @@ class gui:
         label_fecha.pack(pady=10)
         entry_fecha = ttk.Entry()
         entry_fecha.pack(pady=10)
+        entry_fecha.bind("<KeyRelease>", lambda event: self._limit_text(entry_fecha, 5))
 
-        label_descripcion = ttk.Label( text="Introduzca la descripción")
+        label_descripcion = ttk.Label( text="Introduzca la descripción (tan solo 11 caracteres)")
         label_descripcion.pack(pady=10)
         entry_descripcion = ttk.Entry()
         entry_descripcion.pack(pady=10)
+        entry_descripcion.bind("<KeyRelease>", lambda event: self._limit_text(entry_descripcion, 11))
 
         boton_guardar = ttk.Button( text="Guardar", command=lambda: {
             self.api.create_general_tasks(entry_fecha.get(), entry_descripcion.get()),
@@ -313,16 +315,19 @@ class gui:
         label_fecha.pack(pady=10)
         entry_fecha = ttk.Entry()
         entry_fecha.pack(pady=10)
+        entry_fecha.bind("<KeyRelease>", lambda event: self._limit_text(entry_fecha, 5))
 
-        label_nombre = ttk.Label( text="Introduzca el nombre")
+        label_nombre = ttk.Label( text="Introduzca el nombre (tan solo 6 caracteres)")
         label_nombre.pack(pady=10)
         entry_nombre = ttk.Entry()
         entry_nombre.pack(pady=10)
+        entry_fecha.bind("<KeyRelease>", lambda event: self._limit_text(entry_nombre, 6))
 
-        label_descripcion = ttk.Label( text="Introduzca la descripción")
+        label_descripcion = ttk.Label( text="Introduzca la descripción (tan solo 10 caracteres)")
         label_descripcion.pack(pady=10)
         entry_descripcion = ttk.Entry()
         entry_descripcion.pack(pady=10)
+        entry_descripcion.bind("<KeyRelease>", lambda event: self._limit_text(entry_descripcion, 10))
 
         boton_guardar = ttk.Button( text="Guardar", command=lambda: {
             self.api.create_specific_tasks(entry_fecha.get(), entry_nombre.get(), entry_descripcion.get()),
@@ -342,3 +347,13 @@ class gui:
     def _clearWindow(self):
         for widget in self.root.winfo_children():
             widget.destroy()
+
+    def _limit_text(self, entry, limit):
+        texto = entry.get()
+        if len(texto) > limit:
+            entry.delete(limit, tk.END)
+
+    def _date_format(self, entry):
+        text = entry.get()
+        if len(text) > 5:
+            entry.delete(5, tk.END)
