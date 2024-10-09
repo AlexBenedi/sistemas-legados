@@ -290,7 +290,7 @@ class gui:
         entry_fecha.pack(pady=10)
         entry_fecha.bind("<KeyRelease>", lambda event: self._limit_text(entry_fecha, 5))
 
-        label_descripcion = ttk.Label( text="Introduzca la descripción (tan solo 11 caracteres)")
+        label_descripcion = ttk.Label( text="Introduzca la descripción (maximo 11 caracteres)")
         label_descripcion.pack(pady=10)
         entry_descripcion = ttk.Entry()
         entry_descripcion.pack(pady=10)
@@ -317,13 +317,13 @@ class gui:
         entry_fecha.pack(pady=10)
         entry_fecha.bind("<KeyRelease>", lambda event: self._limit_text(entry_fecha, 5))
 
-        label_nombre = ttk.Label( text="Introduzca el nombre (tan solo 6 caracteres)")
+        label_nombre = ttk.Label( text="Introduzca el nombre (maximo 6 caracteres)")
         label_nombre.pack(pady=10)
         entry_nombre = ttk.Entry()
         entry_nombre.pack(pady=10)
         entry_fecha.bind("<KeyRelease>", lambda event: self._limit_text(entry_nombre, 6))
 
-        label_descripcion = ttk.Label( text="Introduzca la descripción (tan solo 10 caracteres)")
+        label_descripcion = ttk.Label( text="Introduzca la descripción (maximo 10 caracteres)")
         label_descripcion.pack(pady=10)
         entry_descripcion = ttk.Entry()
         entry_descripcion.pack(pady=10)
