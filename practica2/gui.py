@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
+from tkinter import font
 from api import api
 
 class gui:
@@ -9,11 +10,12 @@ class gui:
         self.root.title("Tareas")
         self.root.geometry("300x200")
 
-    # Funcion para iniciar el bucle principal de la GUI
     def mainloop(self):
+        """Inicia el bucle principal de la GUI"""
         self.root.mainloop()
 
     def main_general_page(self):
+        """Muestra la pantalla principal de las tareas generales"""
         
         self.api.menu()
         self.api.view_general_tasks()
@@ -49,7 +51,8 @@ class gui:
         top_frame.columnconfigure(0, weight=1)
         top_frame.columnconfigure(1, weight=1)
         
-        label_general = ttk.Label(top_frame, text="Tareas generales")
+        font_general = font.Font(weight="bold")
+        label_general = ttk.Label(top_frame, text="Tareas generales", font=font_general)
         label_general.grid(row=0, column=0, padx=5, pady=5, sticky="ew")
         
         btn_especificas = ttk.Button(top_frame, text="Tareas especificas", command=self.main_specific_page)
@@ -96,6 +99,8 @@ class gui:
         self.root.update_idletasks()
     
     def main_specific_page(self):
+        """Muestra la pantalla principal de las tareas específicas"""
+        
         self.api.menu()
         self.api.view_specific_tasks()
         self._clearWindow()
@@ -131,7 +136,8 @@ class gui:
         label_general = ttk.Button(top_frame, text="Tareas generales", command=self.main_general_page)
         label_general.grid(row=0, column=0, padx=5, pady=5, sticky="ew")
         
-        btn_especificas = ttk.Label(top_frame, text="Tareas especificas")
+        font_especificas = font.Font(weight="bold")
+        btn_especificas = ttk.Label(top_frame, text="Tareas especificas", font=font_especificas)
         btn_especificas.grid(row=0, column=1, padx=5, pady=5, sticky="ew")
         
         # Middle Frame con la tabla y el nuevo botón
@@ -175,6 +181,7 @@ class gui:
         self.root.update_idletasks()
 
     def create_table(self, parent):
+        """Crear la tabla con los datos de las tareas"""
 
         columns = ("#1", "#2", "#3", "#4", "#5")
         tree = ttk.Treeview(parent, columns=columns, show='headings', height=19)  # Iniciar con más filas visibles (15)
@@ -278,9 +285,9 @@ class gui:
 
     #     self.root.update_idletasks()
     
-    # Funcion llamada por el boton para mostrar la pantalla de añadir tarea general
     def _create_general_tasks_function(self):
-        
+        """Funcion llamada por el boton para mostrar la pantalla de añadir tarea general"""
+
         self._clearWindow()
         self.api.enter_general_tasks()
 
@@ -305,8 +312,8 @@ class gui:
 
         self.root.update_idletasks()
 
-    # Funcion llamada por el boton para mostrar la pantalla de añadir tarea especifica
     def _create_specific_tasks_function(self):
+        """Funcion llamada por el boton para mostrar la pantalla de añadir tarea especifica"""
         
         self._clearWindow()
         self.api.enter_specific_tasks()
@@ -338,22 +345,21 @@ class gui:
 
         self.root.update_idletasks()
 
-    # Funcion llamada por el boton para salir de la aplicacion
     def exit(self):
+        """Cierra la conexión y sale de la aplicación"""
+
         self.api.disconnect()
         self.root.quit()
 
-    # Funciones internas para el funcionamiento de la GUI
     def _clearWindow(self):
+        """Elimina todos los widgets de la ventana principal"""
+
         for widget in self.root.winfo_children():
             widget.destroy()
 
     def _limit_text(self, entry, limit):
+        """Limita el texto de un Entry a un número de caracteres"""
+        
         texto = entry.get()
         if len(texto) > limit:
             entry.delete(limit, tk.END)
-
-    def _date_format(self, entry):
-        text = entry.get()
-        if len(text) > 5:
-            entry.delete(5, tk.END)
