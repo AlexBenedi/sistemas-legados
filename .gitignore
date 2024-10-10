@@ -1,2 +1,4 @@
 *.exe
 __*
+build/
+dist
