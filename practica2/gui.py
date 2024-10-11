@@ -3,6 +3,11 @@ from tkinter import ttk
 from tkinter import font
 from api import api
 
+LIMITE_FECHA = 5
+LIMITE_NOMBRE = 5
+LIMITE_DESCRIPCION_GENERAL = 11
+LIMITE_DESCRIPCION_ESPECIFICA = 10
+
 class gui:
     def __init__(self):
         self.api = api()
@@ -295,13 +300,13 @@ class gui:
         label_fecha.pack(pady=10)
         entry_fecha = ttk.Entry()
         entry_fecha.pack(pady=10)
-        entry_fecha.bind("<KeyRelease>", lambda event: self._limit_text(entry_fecha, 5))
+        entry_fecha.bind("<KeyRelease>", lambda event: self._limit_text(entry_fecha, LIMITE_FECHA))
 
-        label_descripcion = ttk.Label( text="Introduzca la descripción (maximo 11 caracteres)")
+        label_descripcion = ttk.Label( text="Introduzca la descripción (maximo " + str(LIMITE_DESCRIPCION_GENERAL) + " caracteres)")
         label_descripcion.pack(pady=10)
         entry_descripcion = ttk.Entry()
         entry_descripcion.pack(pady=10)
-        entry_descripcion.bind("<KeyRelease>", lambda event: self._limit_text(entry_descripcion, 11))
+        entry_descripcion.bind("<KeyRelease>", lambda event: self._limit_text(entry_descripcion, LIMITE_DESCRIPCION_GENERAL))
 
         boton_guardar = ttk.Button( text="Guardar", command=lambda: {
             self.api.create_general_tasks(entry_fecha.get(), entry_descripcion.get()),
@@ -322,19 +327,19 @@ class gui:
         label_fecha.pack(pady=10)
         entry_fecha = ttk.Entry()
         entry_fecha.pack(pady=10)
-        entry_fecha.bind("<KeyRelease>", lambda event: self._limit_text(entry_fecha, 5))
+        entry_fecha.bind("<KeyRelease>", lambda event: self._limit_text(entry_fecha, LIMITE_FECHA))
 
-        label_nombre = ttk.Label( text="Introduzca el nombre (maximo 6 caracteres)")
+        label_nombre = ttk.Label( text="Introduzca el nombre (maximo " + str(LIMITE_NOMBRE) + " caracteres)")
         label_nombre.pack(pady=10)
         entry_nombre = ttk.Entry()
         entry_nombre.pack(pady=10)
-        entry_fecha.bind("<KeyRelease>", lambda event: self._limit_text(entry_nombre, 6))
+        entry_nombre.bind("<KeyRelease>", lambda event: self._limit_text(entry_nombre, LIMITE_NOMBRE))
 
-        label_descripcion = ttk.Label( text="Introduzca la descripción (maximo 10 caracteres)")
+        label_descripcion = ttk.Label( text="Introduzca la descripción (maximo " + str(LIMITE_DESCRIPCION_ESPECIFICA) + " caracteres)")
         label_descripcion.pack(pady=10)
         entry_descripcion = ttk.Entry()
         entry_descripcion.pack(pady=10)
-        entry_descripcion.bind("<KeyRelease>", lambda event: self._limit_text(entry_descripcion, 10))
+        entry_descripcion.bind("<KeyRelease>", lambda event: self._limit_text(entry_descripcion, LIMITE_DESCRIPCION_ESPECIFICA))
 
         boton_guardar = ttk.Button( text="Guardar", command=lambda: {
             self.api.create_specific_tasks(entry_fecha.get(), entry_nombre.get(), entry_descripcion.get()),
