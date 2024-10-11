@@ -9,7 +9,7 @@ PASSWORD='secreto6'
 class api:
 
     def __init__(self):
-        self.session = Emulator(visible=True)
+        self.session = Emulator(visible=True)   # True para inicar la terminal visible
         self.session.connect(f'{HOST}:{PORT}')
         self.wait()
         self.session.send_enter()
