@@ -17,7 +17,6 @@ class api:
         self.login()
         self.exec_tasks()
         self.view_general_tasks()
-        self.session.status
 
     def disconnect(self):
         """Cierra la sesion"""
@@ -40,6 +39,12 @@ class api:
         self.session.fill_field(5, 18, PASSWORD, 8)
         self.session.send_enter()
         self.session.wait_for_field()
+        time.sleep(0.5)
+        if self.session.string_get(1, 24, 2) == "OK":
+            self.session.send_string("OK")
+            self.session.send_enter()
+            self.session.wait_for_field()
+            time.sleep(0.5)
         self.session.send_enter()
         self.session.wait_for_field()
 
