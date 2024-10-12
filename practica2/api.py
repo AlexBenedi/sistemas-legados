@@ -5,11 +5,13 @@ HOST='155.210.152.51'
 PORT='3270'
 USERNAME='grupo_08'
 PASSWORD='secreto6'
+TIME_SLEEP=0.5
+TIME_SLEEP_READ=0.1
 
 class api:
 
     def __init__(self):
-        self.session = Emulator(visible=True)   # True para inicar la terminal visible
+        self.session = Emulator(visible=False)   # True para inicar la terminal visible
         self.session.connect(f'{HOST}:{PORT}')
         self.wait()
         self.session.send_enter()
@@ -39,23 +41,23 @@ class api:
         self.session.fill_field(5, 18, PASSWORD, 8)
         self.session.send_enter()
         self.session.wait_for_field()
-        time.sleep(0.5)
+        time.sleep(TIME_SLEEP)
         if self.session.string_get(1, 24, 2) == "OK":
             self.session.send_string("OK")
             self.session.send_enter()
             self.session.wait_for_field()
-            time.sleep(0.5)
+            time.sleep(TIME_SLEEP)
         self.session.send_enter()
         self.session.wait_for_field()
 
     def create_general_tasks(self, fecha, descripcion):
         """Dado una fecha y una descripcion, crea una tarea general"""
 
-        time.sleep(0.5)
+        time.sleep(TIME_SLEEP)
         self._send_string(fecha)
         self.session.send_enter()
         self.session.wait_for_field()
-        time.sleep(0.5)
+        time.sleep(TIME_SLEEP)
         self._send_string(descripcion)
         self.session.send_enter()
         self.session.wait_for_field()
@@ -66,11 +68,11 @@ class api:
         # Salir al menu
         self.menu()
         #Entrar en la opcion de añadir tarea general
-        time.sleep(0.5)
+        time.sleep(TIME_SLEEP)
         self._send_string('1')
         self.session.send_enter()
         self.session.wait_for_field()
-        time.sleep(0.5)
+        time.sleep(TIME_SLEEP)
         self._send_string('1')
         self.session.send_enter()
         self.session.wait_for_field()
@@ -78,15 +80,15 @@ class api:
     def create_specific_tasks(self, fecha, nombre, descripion):
         """Dado una fecha, un nombre y una descripcion, crea una tarea especifica"""
 
-        time.sleep(0.5)
+        time.sleep(TIME_SLEEP)
         self._send_string(fecha)
         self.session.send_enter()
         self.session.wait_for_field()
-        time.sleep(0.5)
+        time.sleep(TIME_SLEEP)
         self._send_string(nombre)
         self.session.send_enter()
         self.session.wait_for_field()
-        time.sleep(0.5)
+        time.sleep(TIME_SLEEP)
         self._send_string(descripion)
         self.session.send_enter()
         self.session.wait_for_field()
@@ -97,11 +99,11 @@ class api:
         self.menu()
 
         # Entrar en la opcion de añadir tarea especifica
-        time.sleep(0.5)
+        time.sleep(TIME_SLEEP)
         self._send_string('1')
         self.session.send_enter()
         self.session.wait_for_field()
-        time.sleep(0.5)
+        time.sleep(TIME_SLEEP)
         self._send_string('2')
         self.session.send_enter()
         self.session.wait_for_field()
@@ -109,7 +111,7 @@ class api:
     def menu(self):
         """Sale al menu principal"""
 
-        time.sleep(0.5)
+        time.sleep(TIME_SLEEP)
         self._send_string('3')
         self.session.send_enter()
         self.session.wait_for_field()
@@ -117,11 +119,11 @@ class api:
     def view_general_tasks(self):
         """Se mete en el menu para mostrar las tareas generales"""
 
-        time.sleep(0.5)
+        time.sleep(TIME_SLEEP)
         self._send_string('2')
         self.session.send_enter()
         self.session.wait_for_field()
-        time.sleep(0.5)
+        time.sleep(TIME_SLEEP)
         self._send_string('1')
         self.session.send_enter()
         self.session.wait_for_field()
@@ -129,11 +131,11 @@ class api:
     def view_specific_tasks(self):
         """Se mete en el menu para mostrar las tareas especificas"""
         
-        time.sleep(0.5)
+        time.sleep(TIME_SLEEP)
         self._send_string('2')
         self.session.send_enter()
         self.session.wait_for_field()
-        time.sleep(0.5)
+        time.sleep(TIME_SLEEP)
         self._send_string('2')
         self.session.send_enter()
         self.session.wait_for_field()
@@ -165,7 +167,7 @@ class api:
             if task != "TOTAL TASK" and line == 40:
                 self.session.send_enter()
                 self.session.wait_for_field()
-                time.sleep(0.1)
+                time.sleep(TIME_SLEEP_READ)
                 line = 0
             line += 1
         
