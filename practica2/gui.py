@@ -309,7 +309,8 @@ class gui:
         entry_descripcion.bind("<KeyRelease>", lambda event: self._limit_text(entry_descripcion, LIMITE_DESCRIPCION_GENERAL))
 
         boton_guardar = ttk.Button( text="Guardar", command=lambda: {
-            self.api.create_general_tasks(entry_fecha.get().replace(" ", "_"), entry_descripcion.get().replace(" ", "_")),
+            self.api.create_general_tasks(entry_fecha.get().replace(" ", "_").replace("ñ", "n").replace("Ñ", "N"), 
+                                          entry_descripcion.get().replace(" ", "_").replace("ñ", "n").replace("Ñ", "N")),
             self.main_general_page()
         })
 
@@ -342,8 +343,9 @@ class gui:
         entry_descripcion.bind("<KeyRelease>", lambda event: self._limit_text(entry_descripcion, LIMITE_DESCRIPCION_ESPECIFICA))
 
         boton_guardar = ttk.Button( text="Guardar", command=lambda: {
-            self.api.create_specific_tasks(entry_fecha.get().replace(" ", "_"),
-                                        entry_nombre.get().replace(" ", "_"), entry_descripcion.get().replace(" ", "_")),
+            self.api.create_specific_tasks( entry_fecha.get().replace(" ", "_").replace("ñ", "n").replace("Ñ", "N"),
+                                            entry_nombre.get().replace(" ", "_").replace("ñ", "n").replace("Ñ", "N"), 
+                                            entry_descripcion.get().replace(" ", "_").replace("ñ", "n").replace("Ñ", "N")),
             self.main_specific_page()
         })
 
