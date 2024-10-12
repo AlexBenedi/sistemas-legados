@@ -211,11 +211,11 @@ class gui:
         # Añadir algunos datos de ejemplo
         for i in tasks:
             tree.insert("", "end", values=(
-                i.split()[1].split(":")[0],
-                i.split()[2],
-                i.split()[4],
-                i.split()[5],
-                i.split()[3]
+                i.split()[1].split(":")[0],     # ID
+                i.split()[2].replace("_", " "), # Tipo
+                i.split()[4].replace("_", " "), # Nombre
+                i.split()[5].replace("_", " "), # Descripción
+                i.split()[3].replace("_", " ")  # Fecha
 
             ))
 
@@ -309,7 +309,7 @@ class gui:
         entry_descripcion.bind("<KeyRelease>", lambda event: self._limit_text(entry_descripcion, LIMITE_DESCRIPCION_GENERAL))
 
         boton_guardar = ttk.Button( text="Guardar", command=lambda: {
-            self.api.create_general_tasks(entry_fecha.get(), entry_descripcion.get()),
+            self.api.create_general_tasks(entry_fecha.get().replace(" ", "_"), entry_descripcion.get().replace(" ", "_")),
             self.main_general_page()
         })
 
@@ -342,7 +342,8 @@ class gui:
         entry_descripcion.bind("<KeyRelease>", lambda event: self._limit_text(entry_descripcion, LIMITE_DESCRIPCION_ESPECIFICA))
 
         boton_guardar = ttk.Button( text="Guardar", command=lambda: {
-            self.api.create_specific_tasks(entry_fecha.get(), entry_nombre.get(), entry_descripcion.get()),
+            self.api.create_specific_tasks(entry_fecha.get().replace(" ", "_"),
+                                        entry_nombre.get().replace(" ", "_"), entry_descripcion.get().replace(" ", "_")),
             self.main_specific_page()
         })
 
