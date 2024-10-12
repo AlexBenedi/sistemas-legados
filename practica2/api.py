@@ -5,13 +5,13 @@ HOST='155.210.152.51'
 PORT='3270'
 USERNAME='grupo_08'
 PASSWORD='secreto6'
-TIME_SLEEP=0.5
+TIME_SLEEP=0.3
 TIME_SLEEP_READ=0.1
 
 class api:
 
     def __init__(self):
-        self.session = Emulator(visible=False)   # True para inicar la terminal visible
+        self.session = Emulator(visible=True)   # True para inicar la terminal visible
         self.session.connect(f'{HOST}:{PORT}')
         self.wait()
         self.session.send_enter()
