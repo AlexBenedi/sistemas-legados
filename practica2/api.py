@@ -156,7 +156,7 @@ class api:
         while line and not stop:
             task = self.session.string_get(line, 1, 80).strip()
             #final = self.session.string_get(line, 1, 10)
-            print(task)
+            #print(task)
             if line == 0 or task.strip() == "1" or task.strip() == "2":
                 line += 1
                 continue

@@ -184,7 +184,7 @@ class gui:
         tree.column("#5", anchor="center", stretch=True, minwidth=100)
 
         tasks = self.api.get_tasks()
-        print(tasks)
+        #print(tasks)
         
         for i in tasks:
             tree.insert("", "end", values=(
