@@ -28,32 +28,25 @@ class gui:
 
         self.root.update_idletasks()
         
-        # Obtener dimensiones de la pantalla
         ancho_pantalla = self.root.winfo_screenwidth()
         alto_pantalla = self.root.winfo_screenheight()
         
-        # Calcular la mitad de la pantalla
         ancho_ventana = ancho_pantalla // 2
         alto_ventana = alto_pantalla // 2
         
-        # Obtener la posición para centrar la ventana
         posicion_x = (ancho_pantalla - ancho_ventana) // 2
         posicion_y = (alto_pantalla - alto_ventana) // 2
         
-        # Establecer tamaño y posición de la ventana
         self.root.geometry(f"{ancho_ventana}x{alto_ventana}+{posicion_x}+{posicion_y}")
         
-        # Establecer un tamaño mínimo para evitar tamaños demasiado pequeños
         self.root.minsize(600, 400)
 
-        # Configurar el grid principal
         self.root.grid_rowconfigure(1, weight=1)
         self.root.grid_columnconfigure(0, weight=1)
 
-        # Top Frame con dos botones grandes
         top_frame = ttk.Frame(self.root, padding=(10, 10, 10, 5))  # Padding superior e inferior ajustado
         top_frame.grid(row=0, column=0, sticky="ew")
-        top_frame.columnconfigure(0, weight=1)
+        top_frame.columnconfigure(0, weight=1) 
         top_frame.columnconfigure(1, weight=1)
         
         s = ttk.Style()
@@ -69,38 +62,29 @@ class gui:
         btn_especificas = ttk.Button(top_frame, text="Tareas especificas", command=self.main_specific_page)
         btn_especificas.grid(row=0, column=1, padx=5, pady=5, sticky="ew")
         
-        # Middle Frame con la tabla y el nuevo botón
         middle_frame = ttk.Frame(self.root, padding=(10, 5, 10, 10))  # Padding inferior ajustado
         middle_frame.grid(row=1, column=0, sticky="nsew")
         middle_frame.columnconfigure(0, weight=1)
         middle_frame.columnconfigure(1, weight=0)
         middle_frame.rowconfigure(0, weight=1)
         
-        # Canvas para la tabla con scrollbar
         table_canvas = tk.Canvas(middle_frame)
         table_canvas.grid(row=0, column=0, padx=10, pady=10, sticky="nsew")  # Añadir padding al canvas
         
-        # Scrollbar vertical para el Canvas
         scrollbar = ttk.Scrollbar(middle_frame, orient="vertical", command=table_canvas.yview)
         scrollbar.grid(row=0, column=1, sticky="ns")  # Columna 1 para la scrollbar
         table_canvas.configure(yscrollcommand=scrollbar.set)
         
-        # Frame dentro del Canvas para la tabla
         table_general = ttk.Frame(table_canvas)
         
-        # Añadir la tabla al frame dentro del Canvas
         self.create_table(table_general)
         
-        # Crear una ventana dentro del Canvas
         table_canvas.create_window((0, 0), window=table_general, anchor="nw")
         
-        # Bind para actualizar el scrollregion cuando se modifica el tamaño del frame
         table_general.bind("<Configure>", lambda event: table_canvas.configure(scrollregion=table_canvas.bbox("all")))
         
-        # Hacer que el Canvas se expanda con el tamaño del middle_frame
         table_canvas.bind("<Configure>", lambda event: table_canvas.itemconfig("all", width=event.width))
         
-        # Nuevo botón a la derecha de la tabla con padding
         btn_agnadir_general = ttk.Button(middle_frame, text="Añadir tarea general", command=self._create_general_tasks_function)
         btn_agnadir_general.grid(row=0, column=2, padx=20, pady=5, sticky="n")  # Agregar padding horizontal con padx=20
 
@@ -116,29 +100,22 @@ class gui:
         self.api.view_specific_tasks()
         self._clearWindow()
         
-        # Obtener dimensiones de la pantalla
         ancho_pantalla = self.root.winfo_screenwidth()
         alto_pantalla = self.root.winfo_screenheight()
         
-        # Calcular la mitad de la pantalla
         ancho_ventana = ancho_pantalla // 2
         alto_ventana = alto_pantalla // 2
         
-        # Obtener la posición para centrar la ventana
         posicion_x = (ancho_pantalla - ancho_ventana) // 2
         posicion_y = (alto_pantalla - alto_ventana) // 2
         
-        # Establecer tamaño y posición de la ventana
         self.root.geometry(f"{ancho_ventana}x{alto_ventana}+{posicion_x}+{posicion_y}")
         
-        # Establecer un tamaño mínimo para evitar tamaños demasiado pequeños
         self.root.minsize(600, 400)
 
-        # Configurar el grid principal
         self.root.grid_rowconfigure(1, weight=1)
         self.root.grid_columnconfigure(0, weight=1)
 
-        # Top Frame con dos botones grandes
         top_frame = ttk.Frame(self.root, padding=(10, 10, 10, 5))  # Padding superior e inferior ajustado
         top_frame.grid(row=0, column=0, sticky="ew")
         top_frame.columnconfigure(0, weight=1)
@@ -157,38 +134,29 @@ class gui:
         btn_especificas = ttk.Button(top_frame, text="Tareas especificas", style="Gris.TButton")
         btn_especificas.grid(row=0, column=1, padx=5, pady=5, sticky="ew")
         
-        # Middle Frame con la tabla y el nuevo botón
         middle_frame = ttk.Frame(self.root, padding=(10, 5, 10, 10))  # Padding inferior ajustado
         middle_frame.grid(row=1, column=0, sticky="nsew")
         middle_frame.columnconfigure(0, weight=1)
         middle_frame.columnconfigure(1, weight=0)
         middle_frame.rowconfigure(0, weight=1)
         
-        # Canvas para la tabla con scrollbar
         table_canvas = tk.Canvas(middle_frame)
         table_canvas.grid(row=0, column=0, padx=10, pady=10, sticky="nsew")  # Añadir padding al canvas
         
-        # Scrollbar vertical para el Canvas
         scrollbar = ttk.Scrollbar(middle_frame, orient="vertical", command=table_canvas.yview)
         scrollbar.grid(row=0, column=1, sticky="ns")  # Columna 1 para la scrollbar
         table_canvas.configure(yscrollcommand=scrollbar.set)
         
-        # Frame dentro del Canvas para la tabla
         table_especificas = ttk.Frame(table_canvas)
         
-        # Añadir la tabla al frame dentro del Canvas
         self.create_table(table_especificas)
         
-        # Crear una ventana dentro del Canvas
         table_canvas.create_window((0, 0), window=table_especificas, anchor="nw")
         
-        # Bind para actualizar el scrollregion cuando se modifica el tamaño del frame
         table_especificas.bind("<Configure>", lambda event: table_canvas.configure(scrollregion=table_canvas.bbox("all")))
         
-        # Hacer que el Canvas se expanda con el tamaño del middle_frame
         table_canvas.bind("<Configure>", lambda event: table_canvas.itemconfig("all", width=event.width))
         
-        # Nuevo botón a la derecha de la tabla con padding
         btn_agnadir_general = ttk.Button(middle_frame, text="Añadir tarea especifica", command=self._create_specific_tasks_function)
         btn_agnadir_general.grid(row=0, column=2, padx=20, pady=5, sticky="n")  # Agregar padding horizontal con padx=20
 
@@ -203,14 +171,12 @@ class gui:
         columns = ("#1", "#2", "#3", "#4", "#5")
         tree = ttk.Treeview(parent, columns=columns, show='headings', height=19)  # Iniciar con más filas visibles (15)
         
-        # Configurar las columnas para que cambien de tamaño dinámicamente
         tree.heading("#1", text="ID")
         tree.heading("#2", text="Tipo")
         tree.heading("#3", text="NOMBRE")
         tree.heading("#4", text="DESCRIPCION")
         tree.heading("#5", text="FECHA")
         
-        # Definir el tamaño de las columnas para que cambien dinámicamente
         tree.column("#1", anchor="center", stretch=True, minwidth=100)
         tree.column("#2", anchor="center", stretch=True, minwidth=100)
         tree.column("#3", anchor="center", stretch=True, minwidth=100)
@@ -220,7 +186,6 @@ class gui:
         tasks = self.api.get_tasks()
         print(tasks)
         
-        # Añadir algunos datos de ejemplo
         for i in tasks:
             tree.insert("", "end", values=(
                 i.split()[1].split(":")[0],     # ID
@@ -232,7 +197,6 @@ class gui:
             ))
 
         tasks.clear()
-        # Empaquetar la tabla
         tree.pack(fill=tk.BOTH, expand=True)
     
     def _create_general_tasks_function(self):
