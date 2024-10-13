@@ -293,25 +293,30 @@ class gui:
     def _create_general_tasks_function(self):
         """Funcion llamada por el boton para mostrar la pantalla de añadir tarea general"""
 
-        self._clearWindow()
-        self.api.enter_general_tasks()
+        #self._clearWindow()
+        general_page = tk.Toplevel()
+        general_page.title("Añadir tarea general")
+        general_page.geometry("300x250")
+        self._middle_window(general_page)
 
-        label_fecha = ttk.Label(text="Introduzca la fecha (DD/MM)")
+        label_fecha = ttk.Label(general_page, text="Introduzca la fecha (DD/MM)")
         label_fecha.pack(pady=10)
-        entry_fecha = ttk.Entry()
+        entry_fecha = ttk.Entry(general_page)
         entry_fecha.pack(pady=10)
         entry_fecha.bind("<KeyRelease>", lambda event: self._limit_text(entry_fecha, LIMITE_FECHA))
 
-        label_descripcion = ttk.Label( text="Introduzca la descripción (maximo " + str(LIMITE_DESCRIPCION_GENERAL) + " caracteres)")
+        label_descripcion = ttk.Label(general_page, text="Introduzca la descripción (maximo " + str(LIMITE_DESCRIPCION_GENERAL) + " caracteres)")
         label_descripcion.pack(pady=10)
-        entry_descripcion = ttk.Entry()
+        entry_descripcion = ttk.Entry(general_page)
         entry_descripcion.pack(pady=10)
         entry_descripcion.bind("<KeyRelease>", lambda event: self._limit_text(entry_descripcion, LIMITE_DESCRIPCION_GENERAL))
 
-        boton_guardar = ttk.Button( text="Guardar", command=lambda: {
+        boton_guardar = ttk.Button( general_page, text="Guardar", command=lambda: {
+            self.api.enter_general_tasks(),
             self.api.create_general_tasks(entry_fecha.get().replace(" ", "_").replace("ñ", "n").replace("Ñ", "N"), 
                                           entry_descripcion.get().replace(" ", "_").replace("ñ", "n").replace("Ñ", "N")),
-            self.main_general_page()
+            self.main_general_page(),
+            general_page.destroy()
         })
 
         boton_guardar.pack(pady=10)
@@ -321,32 +326,38 @@ class gui:
     def _create_specific_tasks_function(self):
         """Funcion llamada por el boton para mostrar la pantalla de añadir tarea especifica"""
         
-        self._clearWindow()
-        self.api.enter_specific_tasks()
+        #self._clearWindow()
+        specific_page = tk.Toplevel()
 
-        label_fecha = ttk.Label(text="Introduzca la fecha (DD/MM)")
+        specific_page.title("Añadir tarea especifica")
+        specific_page.geometry("300x330")
+        self._middle_window(specific_page)
+
+        label_fecha = ttk.Label(specific_page, text="Introduzca la fecha (DD/MM)")
         label_fecha.pack(pady=10)
-        entry_fecha = ttk.Entry()
+        entry_fecha = ttk.Entry(specific_page)
         entry_fecha.pack(pady=10)
         entry_fecha.bind("<KeyRelease>", lambda event: self._limit_text(entry_fecha, LIMITE_FECHA))
 
-        label_nombre = ttk.Label( text="Introduzca el nombre (maximo " + str(LIMITE_NOMBRE) + " caracteres)")
+        label_nombre = ttk.Label(specific_page, text="Introduzca el nombre (maximo " + str(LIMITE_NOMBRE) + " caracteres)")
         label_nombre.pack(pady=10)
-        entry_nombre = ttk.Entry()
+        entry_nombre = ttk.Entry(specific_page)
         entry_nombre.pack(pady=10)
         entry_nombre.bind("<KeyRelease>", lambda event: self._limit_text(entry_nombre, LIMITE_NOMBRE))
 
-        label_descripcion = ttk.Label( text="Introduzca la descripción (maximo " + str(LIMITE_DESCRIPCION_ESPECIFICA) + " caracteres)")
+        label_descripcion = ttk.Label(specific_page, text="Introduzca la descripción (maximo " + str(LIMITE_DESCRIPCION_ESPECIFICA) + " caracteres)")
         label_descripcion.pack(pady=10)
-        entry_descripcion = ttk.Entry()
+        entry_descripcion = ttk.Entry(specific_page)
         entry_descripcion.pack(pady=10)
         entry_descripcion.bind("<KeyRelease>", lambda event: self._limit_text(entry_descripcion, LIMITE_DESCRIPCION_ESPECIFICA))
 
-        boton_guardar = ttk.Button( text="Guardar", command=lambda: {
+        boton_guardar = ttk.Button(specific_page, text="Guardar", command=lambda: {
+            self.api.enter_specific_tasks(),
             self.api.create_specific_tasks( entry_fecha.get().replace(" ", "_").replace("ñ", "n").replace("Ñ", "N"),
                                             entry_nombre.get().replace(" ", "_").replace("ñ", "n").replace("Ñ", "N"), 
                                             entry_descripcion.get().replace(" ", "_").replace("ñ", "n").replace("Ñ", "N")),
-            self.main_specific_page()
+            self.main_specific_page(),
+            specific_page.destroy(),
         })
 
         boton_guardar.pack(pady=10)
@@ -371,3 +382,19 @@ class gui:
         texto = entry.get()
         if len(texto) > limit:
             entry.delete(limit, tk.END)
+
+    def _middle_window(self, window):
+        """Centra la ventana en la pantalla"""
+
+        window.update_idletasks()
+
+        screen_width = window.winfo_screenwidth()
+        screen_height = window.winfo_screenheight()
+
+        window_width = window.winfo_width()
+        window_height = window.winfo_height()
+
+        x = (screen_width // 2) - (window_width // 2)
+        y = (screen_height // 2) - (window_height // 2)
+
+        window.geometry(f"{window_width}x{window_height}+{x}+{y}")
