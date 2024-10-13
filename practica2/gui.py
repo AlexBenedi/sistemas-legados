@@ -56,8 +56,14 @@ class gui:
         top_frame.columnconfigure(0, weight=1)
         top_frame.columnconfigure(1, weight=1)
         
-        font_general = font.Font(weight="bold")
-        label_general = ttk.Label(top_frame, text="Tareas generales", font=font_general)
+        s = ttk.Style()
+        s.configure(
+            "Gris.TButton",  # Nombre del estilo
+            background="black",
+            foreground="black",
+            font=("bold")
+        )
+        label_general = ttk.Button(top_frame, text="Tareas generales", style="Gris.TButton")
         label_general.grid(row=0, column=0, padx=5, pady=5, sticky="ew")
         
         btn_especificas = ttk.Button(top_frame, text="Tareas especificas", command=self.main_specific_page)
@@ -141,8 +147,14 @@ class gui:
         label_general = ttk.Button(top_frame, text="Tareas generales", command=self.main_general_page)
         label_general.grid(row=0, column=0, padx=5, pady=5, sticky="ew")
         
-        font_especificas = font.Font(weight="bold")
-        btn_especificas = ttk.Label(top_frame, text="Tareas especificas", font=font_especificas)
+        s = ttk.Style()
+        s.configure(
+            "Gris.TButton",  # Nombre del estilo
+            background="black",
+            foreground="black",
+            font=("bold")
+        )
+        btn_especificas = ttk.Button(top_frame, text="Tareas especificas", style="Gris.TButton")
         btn_especificas.grid(row=0, column=1, padx=5, pady=5, sticky="ew")
         
         # Middle Frame con la tabla y el nuevo botón
@@ -226,7 +238,6 @@ class gui:
     def _create_general_tasks_function(self):
         """Funcion llamada por el boton para mostrar la pantalla de añadir tarea general"""
 
-        #self._clearWindow()
         general_page = tk.Toplevel()
         general_page.title("Añadir tarea general")
         general_page.geometry("300x250")
@@ -259,7 +270,6 @@ class gui:
     def _create_specific_tasks_function(self):
         """Funcion llamada por el boton para mostrar la pantalla de añadir tarea especifica"""
         
-        #self._clearWindow()
         specific_page = tk.Toplevel()
 
         specific_page.title("Añadir tarea especifica")
@@ -320,14 +330,10 @@ class gui:
         """Centra la ventana en la pantalla"""
 
         window.update_idletasks()
-
         screen_width = window.winfo_screenwidth()
         screen_height = window.winfo_screenheight()
-
         window_width = window.winfo_width()
         window_height = window.winfo_height()
-
         x = (screen_width // 2) - (window_width // 2)
         y = (screen_height // 2) - (window_height // 2)
-
         window.geometry(f"{window_width}x{window_height}+{x}+{y}")
