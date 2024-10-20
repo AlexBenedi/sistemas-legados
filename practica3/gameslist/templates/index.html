@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de juegos</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+        .search-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .search-container form {
+            display: flex;
+            width: 80%;
+            justify-content: center;
+        }
+        .search-container input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            margin-right: 10px;
+        }
+        .search-container button {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #000;
+            color: #fff;
+            cursor: pointer;
+        }
+        .search-container button:hover {
+            background-color: #333;
+        }
+        .header, .juego {
+            display: flex;
+            justify-content: space-between;
+            width: 80%;
+            background-color: #fff;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            background-color: #000;
+            color: #fff;
+            font-weight: bold;
+        }
+        .header div, .juego div {
+            flex: 1;
+            text-align: center;
+            padding: 5px;
+        }
+        .juego:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .juego h2, .juego p {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Lista de {{num_juegos}} juegos</h1>
+    <h2>Busca un juego entre nuestra lista, si realiza una búsqueda vacía puede visualizarlos todos. Puedes añadir nuevos juegos</h2>
+    <div class="container">
+        <div class="search-container">
+            <form method="GET" action="/">
+                <input type="text" name="q" placeholder="Buscar juegos..." value="{{ request.GET.q }}">
+                <button type="submit">Buscar</button>
+            </form>
+        </div>
+        {% if juegos %}
+        <div class="header">
+            <div>Número</div>
+            <div>Nombre</div>
+            <div>Tipo</div>
+            <div>Cinta</div>
+            <div>Registro</div>
+        </div>
+            {% for juego in juegos %}
+                <div class="juego">
+                    <div>{{ juego.n2 }}</div>
+                    <div>{{ juego.nombre }}</div>
+                    <div>{{ juego.tipo }}</div>
+                    <div>{{ juego.cinta }}</div>
+                    <div>{{ juego.registro }}</div>
+                </div>
+            {% endfor %}
+        {% elif juegos and juegos|length == 0%}
+        <p>No se encontraron juegos.</p>
+        {% endif %}
+    </div>
+</body>
+</html>
