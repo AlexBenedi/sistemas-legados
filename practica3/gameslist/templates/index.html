@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Lista de juegos</title>
-    <link rel="stylesheet" href="styles.css">
+    {% comment %} <link rel="stylesheet" href="styles.css"> {% endcomment %}
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -90,7 +90,6 @@
         </div>
         {% if juegos %}
         <div class="header">
-            <div>Número</div>
             <div>Nombre</div>
             <div>Tipo</div>
             <div>Cinta</div>
@@ -98,14 +97,13 @@
         </div>
             {% for juego in juegos %}
                 <div class="juego">
-                    <div>{{ juego.n2 }}</div>
                     <div>{{ juego.nombre }}</div>
                     <div>{{ juego.tipo }}</div>
                     <div>{{ juego.cinta }}</div>
                     <div>{{ juego.registro }}</div>
                 </div>
             {% endfor %}
-        {% elif juegos and juegos|length == 0%}
+        {% elif juegos|length == 0%}
         <p>No se encontraron juegos.</p>
         {% endif %}
     </div>
