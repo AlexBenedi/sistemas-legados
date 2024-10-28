@@ -21,9 +21,7 @@ def exit_database():
     pyautogui.write('S', interval=0.25)
     pyautogui.press('enter')
 
-
-
-def index(request):
+def charge_num_archivos():
     base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     bat_file_path = os.path.join(base_dir, 'Database-MSDOS')
     os.chdir(bat_file_path)
@@ -42,82 +40,124 @@ def index(request):
             if 'CONTIENE' in line:
                 num_archivos = int(line.split()[1])
                 break
-    
-    query = request.GET.get('q')
-    print("Query: ", query)
-    if query is None:    
-        return render(request, 'index.html', {'num_juegos': num_archivos})
-    elif query == '':
-        juegos = []
-        
-        # Ejecutar el archivo .bat solo si no hay término de búsqueda
-        subprocess.Popen('database.bat')
-        time.sleep(5)
-        
-        pyautogui.write('6')
-        pyautogui.press('enter')
-        print(int(num_archivos/18) + 1 if num_archivos%18 != 0 else 0)
-        for i in range(1, int(num_archivos/18) + 1 if num_archivos%18 != 0 else 0):
-            pyautogui.press('space', interval=0.2)
-        pyautogui.hotkey('ctrl', 'f9')
-        
-        time.sleep(0.5)
-        
-        pattern = re.compile(r"CINTA\s+REGISTRO")
-        
-        with open('Database/DATABASE.TXT', 'r') as file:
-            for line in file:
-                if pattern.search(line):
-                    n = int(line.split()[-1])
-                    for _ in range(17): 
-                        nombre = file.readline().strip()
-                        tipo = file.readline().strip()
-                        cinta = file.readline().strip()
-                        registro = file.readline().strip()
-                        juegos.append({'n2' : n, 'nombre': nombre, 'tipo': tipo, 'cinta': cinta, 'registro': registro})
-                        if n == num_archivos:
-                            break
-                        n = int(file.readline().strip())
-                        
-    elif query != '':
-        juegos = []
-        
-        # Ejecutar el archivo .bat solo si no hay término de búsqueda
-        subprocess.Popen('database.bat')
-        time.sleep(5)
-        
-        pyautogui.write('7', interval=0.25)
-        pyautogui.write('N', interval=0.25)
-        pyautogui.press('enter')
-        pyautogui.write(query.upper())
-        pyautogui.press('enter')
-        for _ in range(1):
-            pyautogui.write('N')
-            pyautogui.press('enter')
-            time.sleep(1)
-        pyautogui.hotkey('ctrl', 'f9')
-        time.sleep(0.5)
-        
-        with open('Database/DATABASE.TXT', 'r') as file:
-            for line in file:
-                if 'CINTA:' in line:
-                    linea = line.split()
-                    print(linea)
-                    n = linea[-1]
-                    
-                    cinta =(n.split(":")[1])
-                    registro = linea[0]
-                    tipo = linea[-2]
-                    nombre = linea[2:-2]
-                    nombre = ' '.join(nombre)
-                    juegos.append({'n2' : n, 'nombre': nombre, 'tipo': tipo, 'cinta': cinta, 'registro': registro})
-                    if nombre==query:
-                        print("Juego encontrado")
-                        break
-                    if len(juegos) > 1:
-                        juegos = []
-                        break
+    return num_archivos
 
+def charge_all_games(num_archivos):
+    juegos = []
         
+    # Ejecutar el archivo .bat solo si no hay término de búsqueda
+    subprocess.Popen('database.bat')
+    time.sleep(5)
+    
+    pyautogui.write('6')
+    pyautogui.press('enter')
+    print(int(num_archivos/18) + 1 if num_archivos%18 != 0 else 0)
+    for i in range(int(num_archivos/18) + 1 if num_archivos%18 != 0 else 0):
+        pyautogui.press('space', interval=0.2)
+    pyautogui.hotkey('ctrl', 'f9')
+    
+    time.sleep(0.5)
+    
+    return juegos
+
+def charge_game_by_cinta(query, num_archivos):
+    juegos = []
+        
+    # Ejecutar el archivo .bat solo si no hay término de búsqueda
+    subprocess.Popen('database.bat')
+    time.sleep(5)
+    
+    pyautogui.write('6')
+    pyautogui.write(query.upper())
+    pyautogui.press('enter')
+    print(int(num_archivos/18) + 1 if num_archivos%18 != 0 else 0)
+    for i in range(int(num_archivos/18) + 1 if num_archivos%18 != 0 else 0):
+        pyautogui.press('space', interval=0.2)
+    pyautogui.hotkey('ctrl', 'f9')
+    time.sleep(0.5)
+    pattern = re.compile(r"CINTA\s+REGISTRO")
+    i = 0
+    with open('Database/DATABASE.TXT', 'r') as file:
+        for line in file:
+            if pattern.search(line):
+                n = int(line.split()[-1])
+                for _ in range(17): 
+                    nombre = file.readline().strip()
+                    tipo = file.readline().strip()
+                    cinta = file.readline().strip()
+                    _ = file.readline().strip()
+                    if query.upper() == cinta.upper():
+                        i += 1
+                        juegos.append({'n2' : n, 'nombre': nombre, 'tipo': tipo, 'cinta': cinta, 'registro': i})
+                    if n == num_archivos:
+                        break
+                    n = int(file.readline().strip()) 
+    return juegos
+
+def charge_game_by_name(query):
+    juegos = []
+        
+    # Ejecutar el archivo .bat solo si no hay término de búsqueda
+    subprocess.Popen('database.bat')
+    time.sleep(5)
+    
+    pyautogui.write('7', interval=0.25)
+    pyautogui.write('N', interval=0.25)
+    pyautogui.press('enter')
+    pyautogui.write(query.upper())
+    pyautogui.press('enter')
+    for _ in range(1):
+        pyautogui.write('N')
+        pyautogui.press('enter')
+        time.sleep(1)
+    pyautogui.hotkey('ctrl', 'f9')
+    time.sleep(0.5)
+    i = 0
+    with open('Database/DATABASE.TXT', 'r') as file:
+        for line in file:
+            if 'CINTA:' in line:
+                linea = line.split()
+                print(linea)
+                n = linea[-1]
+                
+                cinta =(n.split(":")[1])
+                registro = linea[0]
+                tipo = linea[-2]
+                nombre = linea[2:-2]
+                nombre = ' '.join(nombre)
+                i +=1
+                juegos.append({'n2' : n, 'nombre': nombre, 'tipo': tipo, 'cinta': cinta, 'registro': i})
+                if nombre==query:
+                    print("Juego encontrado")
+                    break
+                if len(juegos) > 1:
+                    juegos = []
+                    break
+    return juegos
+
+def charge_game_by_both(query, cinta):
+    juegos = charge_game_by_name(query)
+    juegos_aux = []
+    for juego in juegos:
+        if juego['cinta'].upper() == cinta.upper():
+            juegos_aux.append(juego)
+            
+    return juegos_aux         
+
+def index(request):
+    num_archivos = charge_num_archivos()
+    query = request.GET.get('q')
+    cinta = request.GET.get('cinta')
+    juegos = []
+    if query is None and cinta is None:    
+        return render(request, 'index.html', {'num_juegos': num_archivos})
+    elif query == '' and cinta == '':
+        juegos = charge_all_games(num_archivos)
+    elif query != '' and cinta == '':
+        juegos = charge_game_by_name(query)
+    elif query == '' and cinta != '':
+        juegos = charge_game_by_cinta(cinta, num_archivos)
+    else:
+        juegos = charge_game_by_both(query, cinta)
     return render(request, 'index.html', {'num_juegos': num_archivos,'juegos': juegos})
         

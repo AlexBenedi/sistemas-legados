@@ -5,15 +5,18 @@
     <title>Lista de juegos</title>
     {% comment %} <link rel="stylesheet" href="styles.css"> {% endcomment %}
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+        
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
+            font-family: 'Press Start 2P', cursive;
+            background-color: #000;
+            color: #00ff00;
             margin: 0;
             padding: 20px;
         }
-        h1 {
+        h1, h2 {
             text-align: center;
-            color: #333;
+            color: #00ff00;
         }
         .container {
             display: flex;
@@ -35,34 +38,39 @@
         .search-container input {
             flex: 1;
             padding: 10px;
-            border: 1px solid #ccc;
+            border: 1px solid #00ff00;
             border-radius: 8px;
             margin-right: 10px;
+            background-color: #000;
+            color: #00ff00;
+            font-family: 'Press Start 2P', cursive;
         }
         .search-container button {
             padding: 10px;
-            border: 1px solid #ccc;
+            border: 1px solid #00ff00;
             border-radius: 8px;
             background-color: #000;
-            color: #fff;
+            color: #00ff00;
             cursor: pointer;
+            font-family: 'Press Start 2P', cursive;
         }
         .search-container button:hover {
-            background-color: #333;
+            background-color: #00ff00;
+            color: #000;
         }
         .header, .juego {
             display: flex;
             justify-content: space-between;
             width: 80%;
-            background-color: #fff;
+            background-color: #000;
             margin: 10px 0;
             padding: 10px;
             border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 4px rgba(0, 255, 0, 0.5);
         }
         .header {
-            background-color: #000;
-            color: #fff;
+            background-color: #00ff00;
+            color: #000;
             font-weight: bold;
         }
         .header div, .juego div {
@@ -71,39 +79,49 @@
             padding: 5px;
         }
         .juego:nth-child(even) {
-            background-color: #f9f9f9;
+            background-color: #001100;
         }
         .juego h2, .juego p {
+            text-align: center;
+            justify-content: center;
             margin: 0;
+        }
+        .juego:hover {
+            background-color: #00ff00;
+            color: #fff;
         }
     </style>
 </head>
 <body>
     <h1>Lista de {{num_juegos}} juegos</h1>
-    <h2>Busca un juego entre nuestra lista, si realiza una búsqueda vacía puede visualizarlos todos. Puedes añadir nuevos juegos</h2>
+    <h2>Busca un juego entre nuestra lista, si realiza una búsqueda vacía puede visualizarlos todos.</h2>
     <div class="container">
         <div class="search-container">
             <form method="GET" action="/">
                 <input type="text" name="q" placeholder="Buscar juegos..." value="{{ request.GET.q }}">
+                <input type="text" name="cinta" placeholder="Buscar por cinta..." value="{{ request.GET.cinta }}">
                 <button type="submit">Buscar</button>
             </form>
         </div>
         {% if juegos %}
         <div class="header">
+            <div>Nº</div>
             <div>Nombre</div>
             <div>Tipo</div>
             <div>Cinta</div>
-            <div>Registro</div>
         </div>
             {% for juego in juegos %}
                 <div class="juego">
+                    <div>{{ juego.registro }}</div>
                     <div>{{ juego.nombre }}</div>
                     <div>{{ juego.tipo }}</div>
                     <div>{{ juego.cinta }}</div>
-                    <div>{{ juego.registro }}</div>
                 </div>
             {% endfor %}
-        {% elif juegos|length == 0%}
+        {% elif no_impl == True %}
+            <p>Funcionalidad no implementada.</p>
+        {% elif juegos is None%}
+        {% elif juegos|length == 0 %}
         <p>No se encontraron juegos.</p>
         {% endif %}
     </div>
