@@ -170,6 +170,7 @@ def charge_game_by_both(query, cinta):
     return juegos_aux         
 
 def index(request):
+    pyautogui.FAILSAFE = False # Prueba
     num_archivos = charge_num_archivos()
     query = request.GET.get('q')
     cinta = request.GET.get('cinta')
