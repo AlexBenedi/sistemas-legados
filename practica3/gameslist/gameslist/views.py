@@ -77,6 +77,8 @@ def charge_all_games(num_archivos):
                 cinta = file.readline().strip()
                 _ = file.readline().strip()
                 juegos.append({'nombre': nombre, 'tipo': tipo, 'cinta': cinta, 'registro': i})
+    if juegos:
+        juegos.pop()
     return juegos
 
 def charge_game_by_cinta(query, num_archivos):
@@ -118,6 +120,7 @@ def charge_game_by_cinta(query, num_archivos):
                 cinta = file.readline().strip()
                 _ = file.readline().strip()
                 juegos.append({'nombre': nombre, 'tipo': tipo, 'cinta': cinta, 'registro': i})
+
     return juegos
 
 def charge_game_by_name(query):
@@ -158,6 +161,7 @@ def charge_game_by_name(query):
                 if len(juegos) > 1:
                     juegos = []
                     break
+
     return juegos
 
 def charge_game_by_both(query, cinta):
@@ -184,4 +188,3 @@ def index(request):
     else:
         juegos = charge_game_by_both(query, cinta)
     return render(request, 'index.html', {'num_juegos': num_archivos,'juegos': juegos})
-        
