@@ -70,7 +70,7 @@ def charge_all_games(num_archivos):
                     juegos.append({'nombre': nombre, 'tipo': tipo, 'cinta': cinta, 'registro': i})
                     if n == num_archivos:
                         break
-                    n = int(file.readline().strip()) 
+                    n = file.readline().strip() 
                     i += 1
                 nombre = file.readline().strip()
                 tipo = file.readline().strip()
@@ -113,13 +113,8 @@ def charge_game_by_cinta(query, num_archivos):
                         juegos.append({'n2' : n, 'nombre': nombre, 'tipo': tipo, 'cinta': cinta, 'registro': i})
                     if n == num_archivos:
                         break
-                    n = int(file.readline().strip()) 
+                    n = file.readline().strip() 
                     i += 1
-                nombre = file.readline().strip()
-                tipo = file.readline().strip()
-                cinta = file.readline().strip()
-                _ = file.readline().strip()
-                juegos.append({'nombre': nombre, 'tipo': tipo, 'cinta': cinta, 'registro': i})
 
     return juegos
 
