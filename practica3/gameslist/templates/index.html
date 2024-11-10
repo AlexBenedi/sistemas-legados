@@ -14,7 +14,11 @@
             margin: 0;
             padding: 20px;
         }
-        h1, h2 {
+        h1{
+            text-align: center;
+            color: #ff00ff;
+        }
+        h2 {
             text-align: center;
             color: #00ff00;
         }
@@ -90,11 +94,23 @@
             background-color: #00ff00;
             color: #fff;
         }
+        footer {
+            background-color: #000;
+            color: #ff00ff;
+            text-align: center;
+            padding: 15px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.6em;
+        }
     </style>
 </head>
 <body>
-    <h1>Lista de {{num_juegos}} juegos</h1>
-    <h2>Busca un juego entre nuestra lista, si realiza una búsqueda vacía puede visualizarlos todos.</h2>
+    <h1>GameList</h1>
+    <h2>Existen {{num_juegos}} juegos en nuestra base de datos</h2>
+    {% comment %} <h2>Busca un juego entre nuestra lista, si realiza una búsqueda vacía puede visualizarlos todos.</h2> {% endcomment %}
     <div class="container">
         <div class="search-container">
             <form method="GET" action="/">
@@ -125,5 +141,8 @@
         <p>No se encontraron juegos.</p>
         {% endif %}
     </div>
+    <footer>
+        Si realiza una búsqueda vacía puede volver a cargar todos los juegos o puede buscar por juego y cinta a la vez.
+    </footer>
 </body>
 </html>

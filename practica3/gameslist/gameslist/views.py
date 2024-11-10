@@ -90,7 +90,7 @@ def charge_game_by_cinta(query, num_archivos):
     pyautogui.write('6')
     pyautogui.write(query.upper())
     pyautogui.press('enter')
-    print(int(num_archivos/18) + 1 if num_archivos%18 != 0 else 0)
+    # print(int(num_archivos/18) + 1 if num_archivos%18 != 0 else 0)
     for i in range(int(num_archivos/18) + 1 if num_archivos%18 != 0 else 0):
         pyautogui.press('space', interval=0.2)
     pyautogui.hotkey('ctrl', 'f9')
@@ -107,9 +107,9 @@ def charge_game_by_cinta(query, num_archivos):
                     tipo = file.readline().strip()
                     cinta = file.readline().strip()
                     _ = file.readline().strip()
-                    print(cinta, " ", nombre)
+                    # print(cinta, " ", nombre)
                     if query.upper() in cinta.upper():
-                        print("MATCH")
+                        # print("MATCH")
                         juegos.append({'n2' : n, 'nombre': nombre, 'tipo': tipo, 'cinta': cinta, 'registro': i})
                     if n == num_archivos:
                         break
@@ -119,11 +119,14 @@ def charge_game_by_cinta(query, num_archivos):
                 tipo = file.readline().strip()
                 cinta = file.readline().strip()
                 _ = file.readline().strip()
-                juegos.append({'nombre': nombre, 'tipo': tipo, 'cinta': cinta, 'registro': i})
-
+                if query.upper() in cinta.upper():
+                    juegos.append({'nombre': nombre, 'tipo': tipo, 'cinta': cinta, 'registro': i})
+    if juegos:
+        juegos.pop()
     return juegos
 
 def charge_game_by_name(query):
+    query = query.strip()
     juegos = []
         
     # Ejecutar el archivo .bat solo si no hay término de búsqueda
@@ -146,7 +149,7 @@ def charge_game_by_name(query):
         for line in file:
             if 'CINTA:' in line:
                 linea = line.split()
-                print(linea)
+                # print(linea)
                 n = linea[-1]
                 
                 cinta =(n.split(":")[1])
@@ -156,7 +159,7 @@ def charge_game_by_name(query):
                 nombre = ' '.join(nombre)
                 i +=1
                 juegos.append({'n2' : n, 'nombre': nombre, 'tipo': tipo, 'cinta': cinta, 'registro': i})
-                if nombre==query:
+                if nombre.upper()==query.upper():
                     break
                 if len(juegos) > 1:
                     juegos = []
@@ -178,8 +181,8 @@ def index(request):
     num_archivos = charge_num_archivos()
     query = request.GET.get('q')
     cinta = request.GET.get('cinta')
-    juegos = charge_all_games(num_archivos)
-    if query is None and cinta is None:    
+    if (query is None and cinta is None) or (query == '' and cinta == ''):  
+        juegos = charge_all_games(num_archivos)  
         return render(request, 'index.html', {'num_juegos': num_archivos, 'juegos': juegos})
     elif query != '' and cinta == '':
         juegos = charge_game_by_name(query)
