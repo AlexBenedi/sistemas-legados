@@ -96,32 +96,35 @@ def charge_game_by_cinta(query, num_archivos):
     pyautogui.hotkey('ctrl', 'f9')
     time.sleep(0.5)
     pattern = re.compile(r"CINTA\s+REGISTRO")
-    i = 0
+    i = 1
     with open('Database/DATABASE.TXT', 'r') as file:
         for line in file:
             if pattern.search(line):
-                i += 1
                 n = int(line.split()[-1])
                 for _ in range(17): 
                     nombre = file.readline().strip()
                     tipo = file.readline().strip()
                     cinta = file.readline().strip()
                     _ = file.readline().strip()
-                    # print(cinta, " ", nombre)
-                    if query.upper() in cinta.upper():
+                    if query.upper() == cinta.upper() or \
+                        (query.upper() in cinta.upper() and query.upper() == cinta.upper()[:len(query)]) or \
+                        (cinta.upper().startswith(query.upper() + "-") or cinta.upper().endswith("-"+ query.upper())):
                         # print("MATCH")
                         juegos.append({'n2' : n, 'nombre': nombre, 'tipo': tipo, 'cinta': cinta, 'registro': i})
+                        i += 1
                     if n == num_archivos:
                         break
                     n = int(file.readline().strip()) 
-                    i += 1
                 nombre = file.readline().strip()
                 tipo = file.readline().strip()
                 cinta = file.readline().strip()
                 _ = file.readline().strip()
-                if query.upper() in cinta.upper():
+                if query.upper() == cinta.upper() or \
+                        (query.upper() in cinta.upper() and query.upper() == cinta.upper()[:len(query)]) or \
+                        (cinta.upper().startswith(query.upper() + "-") or cinta.upper().endswith("-"+ query.upper())):
                     juegos.append({'nombre': nombre, 'tipo': tipo, 'cinta': cinta, 'registro': i})
-    if juegos:
+                    i += 1
+    if juegos and 'GRABAR DATOS' in juegos[-1]['cinta']:
         juegos.pop()
     return juegos
 
