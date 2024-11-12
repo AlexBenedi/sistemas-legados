@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Error 500</title>
+    <style>
+	@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+        body {
+            font-family: monospace;
+            background-color: #000;
+            color: #ff0000;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        h1 {
+            color: #ff00ff;
+            font-size: 2em;
+            text-align: center;
+        }
+        p {
+            color: #00ff00;
+            text-align: center;
+            font-size: 1.2em;
+        }
+        .error-details {
+            background-color: #000;
+            border: 2px solid #ff00ff;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            max-width: 600px;
+        }
+        .error-details p {
+            margin: 10px 0;
+            color: #00ff00;
+        }
+        a {
+            color: #00ff00;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        a:hover {
+            color: #ff00ff;
+        }
+    </style>
+</head>
+<body>
+    <h1>Error 500</h1>
+    <div class="error-details">
+        <p>Oops! Algo salió mal en nuestro servidor.</p>
+        <p>Por favor, intenta nuevamente más tarde.</p>
+        <p><a href="/">Volver a la página principal</a></p>
+    </div>
+</body>
+</html>
